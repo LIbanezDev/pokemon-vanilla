@@ -1,0 +1,1 @@
+<h3> Pokemon app realizado con javascript vanilla, html, css y bootstrap 5. </h3>
