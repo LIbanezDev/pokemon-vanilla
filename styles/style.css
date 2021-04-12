@@ -1,29 +1,10 @@
 :root {
-    --primary_color: #dddddd;
-    --secondary_color: #222831;
-    --aux_color: #30475e;
+    --primary_color: #fbe6c2;
+    --secondary_color: #f0c929;
+    --aux_color: #f48b29;
 }
-
 
 body {
-    color: white;
-    font-family: Inter, Arial, sans-serif;
-    background: var(--aux_color);
+    font-family: 'Press Start 2P', cursive;
     padding: 50px;
-}
-
-header {
-    padding: 10px;
-    background: var(--primary_color);
-    color: var(--aux_color);
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-#annie_pic_container {
-    text-align: center;
-}
-
-#resume {
-    justify-content: space-between;
 }
