@@ -2,7 +2,6 @@ const pokemonListDom = document.getElementById('pokemon-list');
 const formPokemon = document.getElementById('form-pokemon');
 const loadingPokemonSpinner = document.getElementById('spinner-loading');
 
-
 formPokemon.addEventListener('submit', async (e) => {
     e.preventDefault();
     const pokemonListFetched = await getPokemons();
