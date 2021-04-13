@@ -1,33 +1,34 @@
-const pokemonListDom = document.getElementById('pokemon-list');
-const formPokemon = document.getElementById('form-pokemon');
-const loadingPokemonSpinner = document.getElementById('spinner-loading');
+const pokedex = document.getElementById('pokedex');
+const loadingPokemonSpinner = document.getElementById('spinner-container');
 
-formPokemon.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const pokemonListFetched = await getPokemons();
-    writePokemonList(pokemonListFetched);
-})
-
-const getPokemons = async () => {
-    loadingPokemonSpinner.classList.remove('d-none');
-    loadingPokemonSpinner.classList.add('d-block');
-    pokemonListDom.innerHTML = '';
-    const pokemonLimitForm = parseInt(document.getElementById('pokemon-limit-form').value);
-    const data = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${pokemonLimitForm}`, {
-        method: 'GET',
+window.onload = async () => {
+    const pokemons = [];
+    const promises = []
+    const {data: {results: pokemonsList}} = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=40`);
+    for (let poke of pokemonsList) {
+        pokemons.push({
+            name: poke.name
+        });
+        promises.push(axios.get(poke.url));
+        console.log('Obteniendo dato de pokemon ' + poke.name)
+    }
+    const responses = await Promise.all(promises);
+    responses.forEach((resp, index) => {
+        pokemons[index] = {
+            ...pokemons[index],
+            image: resp.data.sprites.other["official-artwork"].front_default
+        }
+    })
+    pokemons.forEach(pokemon => {
+        const newPokemonDiv = document.createElement('div');
+        const newPokemonImage = document.createElement('img')
+        newPokemonImage.classList.add('img-fluid')
+        newPokemonImage.src = pokemon.image;
+        newPokemonDiv.classList.add('col-12', 'col-md-6', 'col-lg-3');
+        newPokemonDiv.textContent = pokemon.name;
+        newPokemonDiv.appendChild(newPokemonImage)
+        pokedex.appendChild(newPokemonDiv)
     });
-    const {results: pokemonListFetched} = await data.json();
-    console.log(pokemonListFetched);
-    return pokemonListFetched;
-}
-
-const writePokemonList = (pokemonList) => {
     loadingPokemonSpinner.classList.remove('d-block');
     loadingPokemonSpinner.classList.add('d-none');
-    for (let i in pokemonList) {
-        const newPokemonLi = document.createElement('li');
-        newPokemonLi.textContent = pokemonList[i].name;
-        newPokemonLi.classList.add('list-group-item');
-        pokemonListDom.appendChild(newPokemonLi)
-    }
 }
