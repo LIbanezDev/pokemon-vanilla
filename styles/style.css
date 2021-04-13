@@ -4,7 +4,8 @@
     --aux_color: #f48b29;
 }
 
+a { color: inherit; }
+
 body {
     font-family: 'Press Start 2P', cursive;
-    padding: 50px;
 }

@@ -10,7 +10,6 @@ window.onload = async () => {
             name: poke.name
         });
         promises.push(axios.get(poke.url));
-        console.log('Obteniendo dato de pokemon ' + poke.name)
     }
     const responses = await Promise.all(promises);
     responses.forEach((resp, index) => {
