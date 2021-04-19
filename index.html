@@ -42,20 +42,13 @@
                     <span> Filtrar </span>
                 </div>
                 <div class="card-body">
-                    <form autocomplete="off" id="form-pokemon">
+                    <form autocomplete="off" id="form-filter-pokemon">
                         <div class="row">
                             <div class="col-12 mb-3">
-                                <label for="pokemon-name-form" class="form-label"> Name </label>
-                                <input type="text" class="form-control" id="pokemon-name-form"/>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <label for="pokemon-desc-form" class="form-label"> Description </label>
-                                <textarea class="form-control" id="pokemon-desc-form"></textarea>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <label for="pokemon-type-form" class="form-label">Type</label>
-                                <select class="form-select" aria-label="Default select example" id="pokemon-type-form">
-                                    <option value="ground" selected>Ground</option>
+                                <label for="pokemon-type-select" class="form-label">Type</label>
+                                <select class="form-select" aria-label="Default select example" id="pokemon-type-select">
+                                    <option value="all" selected>All</option>
+                                    <option value="ground">Ground</option>
                                     <option value="water">Water</option>
                                     <option value="fire">Fire</option>
                                     <option value="ice">Ice</option>
@@ -64,7 +57,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <button type="submit" class="btn btn-primary disabled" disabled>Agregar</button>
+                                <button type="submit" class="btn btn-primary">Filtrar</button>
                             </div>
                         </div>
                     </form>
@@ -99,9 +92,25 @@
                 </div>
             </div>
         </div>
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal-poke-name"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-poke-info">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Está feo</button>
+                        <button type="button" class="btn btn-success">Agregar a Favs</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
-    <footer>
-    </footer>
 </div>
 <script src="js/lib/bootstrap.bundle.min.js"></script>
 <script src="js/lib/axios.min.js"></script>

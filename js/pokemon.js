@@ -1,17 +1,30 @@
 const pokedex = document.getElementById('pokedex');
 const loadingPokemonSpinner = document.getElementById('spinner-container');
 const paginationContainer = document.getElementById('pagination-container');
-const limit = 8;
-const totalPages = 10;
-let offset = 0;
+const modalPokemonName = document.getElementById('modal-poke-name');
+const modalPokemonDesc = document.getElementById('modal-poke-info');
+const formFilterPokemon = document.getElementById('form-filter-pokemon');
+const pokemonTypeSelect = document.getElementById('pokemon-type-select');
 
-const setPokemonList = async () => {
+const limit = 8;
+const totalPages = 12;
+let offset = 0;
+let pokemons = [];
+
+
+formFilterPokemon.addEventListener('submit', async ev => {
+    ev.preventDefault();
+    const {data: {pokemon: pokemonsList}} = await axios.get(`https://pokeapi.co/api/v2/type/${pokemonTypeSelect.value}?offset=${offset * limit}&limit=${limit}`);
+    setPokemonList(pokemonsList.map(pok => pok.pokemon));
+})
+
+
+const setPokemonList = async (pokemonsList = []) => {
     loadingPokemonSpinner.classList.remove('d-none');
     loadingPokemonSpinner.classList.add('d-block');
     pokedex.innerHTML = '';
-    const pokemons = [];
+    pokemons = [];
     const promises = [];
-    const {data: {results: pokemonsList}} = await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=${offset * limit}&limit=${limit}`);
     for (let poke of pokemonsList) {
         pokemons.push({
             name: poke.name
@@ -22,21 +35,19 @@ const setPokemonList = async () => {
     responses.forEach((resp, index) =>
         pokemons[index].image = resp.data.sprites.other["official-artwork"].front_default
     )
-    pokemons.forEach(pokemon => {
-        const newPokemonDiv = document.createElement('div');
-        const newPokemonImage = document.createElement('img')
-        newPokemonImage.classList.add('img-fluid')
-        newPokemonImage.src = pokemon.image;
-        newPokemonDiv.classList.add('col-12', 'col-md-6', 'col-lg-3', 'animate__animated', 'animate__fadeIn');
-        newPokemonDiv.textContent = pokemon.name;
-        newPokemonDiv.appendChild(newPokemonImage)
-        pokedex.appendChild(newPokemonDiv)
+    pokemons.forEach((pokemon, i) => {
+        pokedex.innerHTML += `
+            <a href="#" class="col-12 col-md-6 col-lg-3 animate__animated animate__fadeIn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="setModalData(${i})"> 
+                <img src="${pokemon.image}" class="img-fluid" alt="${pokemon.name}" />
+                ${pokemon.name}
+            </a>
+        `
     });
     loadingPokemonSpinner.classList.remove('d-block');
     loadingPokemonSpinner.classList.add('d-none');
 }
 
-const clickPagination = (pageNumber) => {
+const clickPagination = async (pageNumber) => {
     if (pageNumber === -1) {
         offset -= 1;
     } else if (pageNumber === -2) {
@@ -51,6 +62,8 @@ const clickPagination = (pageNumber) => {
             document.getElementById(`page${i}`).classList.remove('active');
         }
     }
+    const {data: {results: pokemonsList}} = await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=${offset * limit}&limit=${limit}`);
+    await setPokemonList(pokemonsList);
     if (pageNumberReal === totalPages) {
         paginationContainer.lastElementChild.classList.add('disabled');
         paginationContainer.firstElementChild.classList.remove('disabled')
@@ -61,13 +74,21 @@ const clickPagination = (pageNumber) => {
         paginationContainer.firstElementChild.classList.remove('disabled')
         paginationContainer.lastElementChild.classList.remove('disabled')
     }
-    setPokemonList();
 }
 
-window.onload = () => {
+const setModalData = (pokemonPosition) => {
+    modalPokemonName.textContent = pokemons[pokemonPosition].name;
+    modalPokemonDesc.textContent = 'Descripcion generica...';
+}
+
+window.onload = async () => {
     for (let i = 0; i < totalPages; i++) {
         paginationContainer.innerHTML +=
-            `<li class="page-item ${i === 0 && 'active'}" id="page${i + 1}"><a class="page-link" href="#" onclick="clickPagination(${i})">${i + 1}</a></li>`
+            `<li class="page-item ${i === 0 && 'active'}" id="page${i + 1}">
+                <a class="page-link" href="#" onclick="clickPagination(${i})">
+                    ${i + 1}
+                </a>
+            </li>`
     }
     paginationContainer.innerHTML += `
         <li class="page-item">
@@ -76,5 +97,6 @@ window.onload = () => {
             </a>
         </li>
     `
-    setPokemonList();
+    const {data: {results: pokemonsList}} = await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=${offset * limit}&limit=${limit}`);
+    setPokemonList(pokemonsList);
 }

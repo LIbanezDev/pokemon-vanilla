@@ -9,3 +9,7 @@ a { color: inherit; }
 body {
     font-family: 'Press Start 2P', cursive;
 }
+
+.pagination-color {
+    color: black;
+}
