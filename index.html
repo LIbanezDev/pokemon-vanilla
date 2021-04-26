@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="vendor/fontawesome/fontawesome.min.css" />
     <link rel="stylesheet" href="styles/style.css"/>
 </head>
 <body>
@@ -63,10 +64,13 @@
                             <div class="col-12 mb-3">
                                 <label for="pokemon-type-form" class="form-label">Type</label>
                                 <select class="form-select" aria-label="Default select example" id="pokemon-type-form">
-                                    <option value="ground" selected>Ground</option>
-                                    <option value="water">Water</option>
-                                    <option value="fire">Fire</option>
-                                    <option value="ice">Ice</option>
+                                    <option value="Normal" selected>Normal</option>
+                                    <option value="Water">Water</option>
+                                    <option value="Fire">Fire</option>
+                                    <option value="Plant">Plant</option>
+                                    <option value="Electric">Electric</option>
+                                    <option value="Ice">Ice</option>
+                                    <option value="Ghost">Ghost </option>
                                 </select>
                             </div>
                         </div>
@@ -100,14 +104,8 @@
                             <th scope="col">Accciones</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <th scope="row"> 1</th>
-                            <td> Pikachu</td>
-                            <td> Electrico</td>
-                            <td> Ratilla Electrica</td>
-                            <td> XD</td>
-                        </tr>
+                        <tbody id="body-poke-table">
+
                         </tbody>
                     </table>
                 </div>
@@ -120,6 +118,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 <script src="vendor/tinymce/js/tinymce/tinymce.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="script/index.js"></script>
 </body>
 </html>
