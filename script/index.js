@@ -31,16 +31,16 @@ tinymce.init({
 const getPokeListFromStorage = () => {
     let pokeList = localStorage.getItem('pokeList');
     if (!pokeList) {
-        localStorage.setItem('pokeList', '');
+        localStorage.setItem('pokeList', '[]');
         return [];
     }
-    return localStorage.getItem('pokeList').split('|').map(JSON.parse)
+    return JSON.parse(localStorage.getItem('pokeList'));
 }
 
 const addPokeToStorage = (pokemon) => {
     const updatedList = getPokeListFromStorage();
     updatedList.push(pokemon);
-    localStorage.setItem('pokeList', updatedList.map(JSON.stringify).join('|'));
+    localStorage.setItem('pokeList', JSON.stringify(updatedList));
     return updatedList;
 }
 
